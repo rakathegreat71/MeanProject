@@ -17,8 +17,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("yes we are connected to mongoDb")
 });
-
-
+  
 
 
 // route setup
@@ -30,6 +29,7 @@ var users = require('./routes/users');
 var app = express();
 
 
+app.use(cors())
 
 
 // BodyParser Middleware
@@ -46,6 +46,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/users', users);
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'public/index.html'));
+})
 
 // Set Port
 app.set('port', (process.env.PORT || 3000));
