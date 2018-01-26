@@ -20,12 +20,13 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_lazy_route_resource lazy re
 /***/ "../../../../../src/app/app.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
+var escape = __webpack_require__("../../../../css-loader/lib/url/escape.js");
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "#main{\r\n\tbackground-image: url(" + escape(__webpack_require__("../../../../../src/assets/bg.jpg")) + ");\r\n}", ""]);
 
 // exports
 
@@ -38,7 +39,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-nav-bar></app-nav-bar>\n<div class=\"container\">\n<flash-message></flash-message>\n\t\n<router-outlet></router-outlet>\t\n</div>"
+module.exports = "<app-nav-bar></app-nav-bar>\n<div class=\"container\">\n<flash-message></flash-message>\n\t\n<router-outlet></router-outlet>\t\n</div>\n<app-footer></app-footer>\t\t"
 
 /***/ }),
 
@@ -95,12 +96,19 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile/profile.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__guards_auth_guard__ = __webpack_require__("../../../../../src/app/guards/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__footer_footer_component__ = __webpack_require__("../../../../../src/app/footer/footer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__play_video_play_video_component__ = __webpack_require__("../../../../../src/app/play-video/play-video.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18_ng2_file_upload__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -150,13 +158,16 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_7__register_register_component__["a" /* RegisterComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__dashboard_dashboard_component__["a" /* DashboardComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__nav_bar_nav_bar_component__["a" /* NavBarComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__profile_profile_component__["a" /* ProfileComponent */]
+                __WEBPACK_IMPORTED_MODULE_14__profile_profile_component__["a" /* ProfileComponent */],
+                __WEBPACK_IMPORTED_MODULE_16__footer_footer_component__["a" /* FooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__play_video_play_video_component__["a" /* PlayVideoComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_13__angular_http__["HttpModule"],
                 __WEBPACK_IMPORTED_MODULE_11_angular_flash_message__["FlashMessageModule"],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_18_ng2_file_upload__["FileUploadModule"],
                 __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"].forRoot(appRoutes, { enableTracing: true } // <-- debugging purposes only
                 )
             ],
@@ -201,7 +212,7 @@ var AuthService = (function () {
     AuthService.prototype.registerUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        return this.http.post('users/register', user, { headers: headers })
+        return this.http.post('/users/register', user, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.loggedIn = function () {
@@ -213,7 +224,7 @@ var AuthService = (function () {
     AuthService.prototype.authenticate = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        return this.http.post('users/authenticate', user, { headers: headers })
+        return this.http.post('/users/authenticate', user, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.storeUserData = function (token, user) {
@@ -225,7 +236,6 @@ var AuthService = (function () {
     AuthService.prototype.logout = function () {
         this.authToken = null;
         this.user = null;
-        "";
         localStorage.clear();
     };
     AuthService = __decorate([
@@ -260,7 +270,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"page-header\">\n\twelcome to dashboard {{user.name}}\n</h2>"
+module.exports = "<h1 class=\" well page-header\">Welcome {{user.name}} to your dashboard!</h1>\n<hr>\n\n\n<div class=\" well form-group\">\n\t<h3>Select a video to upload again:</h3>\n\t<div id=\"fileSelector\">\n\t\t<input type=\"file\" name=\"fileUpload\" id=\"fileUpload\" ng2FileSelect [uploader] = \"uploader\">\n\t</div>\n\t<div class=\"row uploadList\" *ngFor = \" let item of uploader.queue\">\n\t\t<div class=\"col-sm-4\">\n\t\t\t{{item.file.name}}\n\t\t</div>\n\t\t<div class=\"col-sm-4\">\n\t\t\t<div class=\"progress\">\n\t\t\t\t<div class=\"progress-bar bg-success\" [ngStyle] =\"{'width':item.progress +'%'}\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\t\n\t\t<div class=\"col-sm-4\">\n\t\t\t<button class=\"btn btn-dark\" (click) = item.upload()>upload</button>\n\t\t\t<button class=\"btn btn-danger\" (click) = item.remove() >cancel</button>\n\t\t</div>\n\t</div>\n</div>\t\n\n<div *ngIf =\"status\">\n<h1>watch your uploaded file </h1>\n\n\t<video autoplay controls src=\"{{filename}}\"></video>\n</div>\n"
 
 /***/ }),
 
@@ -271,6 +281,10 @@ module.exports = "<h2 class=\"page-header\">\n\twelcome to dashboard {{user.name
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_service__ = __webpack_require__("../../../../../src/app/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_flash_message__ = __webpack_require__("../../../../angular-flash-message/dist/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_flash_message___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular_flash_message__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -282,9 +296,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
+var uri = "/file/upload";
 var DashboardComponent = (function () {
-    function DashboardComponent(authService) {
+    function DashboardComponent(authService, flashMessage) {
+        var _this = this;
         this.authService = authService;
+        this.flashMessage = flashMessage;
+        this.uploader = new __WEBPACK_IMPORTED_MODULE_2_ng2_file_upload__["FileUploader"]({ url: uri });
+        this.attachmentList = [];
+        this.uploader.onCompleteItem = function (item, response, status, headers) {
+            console.log("item:" + item);
+            console.log("response" + response);
+            console.log("headers" + headers);
+            console.log("status" + status);
+            _this.attachmentList.push(JSON.parse(response));
+            _this.flashMessage.success("your file successfully uploaded.");
+            _this.filename = JSON.parse(response).filename;
+            console.log("filename:" + _this.filename);
+            _this.status = status;
+            console.log("attachmentList" + _this.attachmentList);
+        };
     }
     DashboardComponent.prototype.ngOnInit = function () {
         this.user = this.authService.getUser();
@@ -295,9 +328,71 @@ var DashboardComponent = (function () {
             template: __webpack_require__("../../../../../src/app/dashboard/dashboard.component.html"),
             styles: [__webpack_require__("../../../../../src/app/dashboard/dashboard.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_3_angular_flash_message__["FlashMessage"]])
     ], DashboardComponent);
     return DashboardComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/footer/footer.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/footer/footer.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"footer navbar-fixed-bottom\">\n\tdeveloper: rakesh sharma\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/footer/footer.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FooterComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var FooterComponent = (function () {
+    function FooterComponent() {
+    }
+    FooterComponent.prototype.ngOnInit = function () {
+    };
+    FooterComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-footer',
+            template: __webpack_require__("../../../../../src/app/footer/footer.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/footer/footer.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FooterComponent);
+    return FooterComponent;
 }());
 
 
@@ -379,7 +474,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron text-center\">\n\t<h1>Mue Tube</h1>\n\t<p>Welcome to our Mue Tube app. Here you upload videos and watch!</p>\n\t<div>\n\t\t<button class=\"btn-primary btn\" [routerLink] = \"['/register']\">Signup</button>\n\t\t<button class=\"btn btn-default\" [routerLink] = \"['/login']\">Login</button>\n\t</div> \n</div>\n<div class=\"row\">\n\t<div class=\"col-md-4\">\n\t\t<h3>Sign up</h3>\n\t\t<p>Make an account and have fun</p>\n\t</div>\n\t<div class=\"col-md-4\">\n\t\t<h3>upload</h3>\n\t\t<p>now share your videos with others</p>\n\t</div>\n\t<div class=\"col-md-4\">\n\t\t<h3>Watch</h3>\n\t\t<p>find out what other have posted on MueTube</p>\n\t</div>\n</div>"
+module.exports = "<div class=\"jumbotron text-center\">\n\t<h1>Mue Tube</h1>\n\t<p>Welcome to our Mue Tube app. Here you upload videos and watch!</p>\n\t\n</div>"
 
 /***/ }),
 
@@ -586,6 +681,67 @@ var NavBarComponent = (function () {
             __WEBPACK_IMPORTED_MODULE_3__angular_router__["Router"]])
     ], NavBarComponent);
     return NavBarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/play-video/play-video.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/play-video/play-video.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  play-video works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/play-video/play-video.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PlayVideoComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var PlayVideoComponent = (function () {
+    function PlayVideoComponent() {
+    }
+    PlayVideoComponent.prototype.ngOnInit = function () {
+    };
+    PlayVideoComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-play-video',
+            template: __webpack_require__("../../../../../src/app/play-video/play-video.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/play-video/play-video.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PlayVideoComponent);
+    return PlayVideoComponent;
 }());
 
 
@@ -802,6 +958,13 @@ var ValidateService = (function () {
 }());
 
 
+
+/***/ }),
+
+/***/ "../../../../../src/assets/bg.jpg":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "bg.32a1ef63519115446155.jpg";
 
 /***/ }),
 

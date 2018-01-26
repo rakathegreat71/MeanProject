@@ -22,6 +22,7 @@ db.once('open', function() {
 
 // route setup
 var users = require('./routes/users');
+var file = require('./routes/file');
 
 
 
@@ -29,7 +30,10 @@ var users = require('./routes/users');
 var app = express();
 
 
-app.use(cors())
+
+
+app.use(cors());
+
 
 
 // BodyParser Middleware
@@ -43,13 +47,16 @@ require('./config/passport')(passport);
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
+
 
 
 app.use('/users', users);
+app.use('/file', file);
 
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname, 'public/index.html'));
-})
+// app.get('*', (req, res) => {
+// 	res.sendFile(path.join(__dirname, 'public/index.html'));
+// })
 
 // Set Port
 app.set('port', (process.env.PORT || 3000));
@@ -58,4 +65,5 @@ app.set('port', (process.env.PORT || 3000));
 app.listen(app.get('port'), function(){
 	console.log(config.database)
 	console.log('Server started on port '+app.get('port'));
+	console.log(__dirname);
 });

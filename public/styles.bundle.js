@@ -1,5 +1,12 @@
 webpackJsonp(["styles"],{
 
+/***/ "../../../../../src/assets/bg.jpg":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "bg.32a1ef63519115446155.jpg";
+
+/***/ }),
+
 /***/ "../../../../../src/styles.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -92,12 +99,13 @@ module.exports = __webpack_require__.p + "glyphicons-halflings-regular.448c34a56
 /***/ "../../../../css-loader/index.js?{\"sourceMap\":false,\"importLoaders\":1}!../../../../postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"sourceMap\":false}!../../../../../src/styles.css":
 /***/ (function(module, exports, __webpack_require__) {
 
+var escape = __webpack_require__("../../../../css-loader/lib/url/escape.js");
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n", ""]);
+exports.push([module.i, "body{\n\tbackground-image: url(" + escape(__webpack_require__("../../../../../src/assets/bg.jpg")) + ");\n}", ""]);
 
 // exports
 
